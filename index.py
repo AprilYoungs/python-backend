@@ -21,14 +21,20 @@ class queryParamRequestHandler(tornado.web.RequestHandler):
             self.write(f"{num} is not a valid number.")
 
 
+class resourceParamRequestHandler(tornado.web.RequestHandler):
+    def get(self, studentName, courseId):
+        self.write(f"Welcome {studentName} the course you are enter is {courseId}")
+
 if __name__ == "__main__":
     app = tornado.web.Application([
         (r"/", basicRequestHandler),
         (r"/animal", listRequestHandler),
-        (r"/iseven", queryParamRequestHandler)
+        (r"/isEven", queryParamRequestHandler),
+        # [A-z] A to z, "+" infinity
+        (r"/students/([A-z]+)/([0-9]+)", resourceParamRequestHandler)
     ])
 
-    port = 8882
+    port = 8888
     app.listen(port)
 
     print(f"Application is ready and listening to port {port}")
