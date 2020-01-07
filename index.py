@@ -1,9 +1,10 @@
+# web application module
 import tornado.web
-# waiting for result
+# input and output loop module
 import tornado.ioloop
 import json
 
-class basicRequestHandler(tornado.web.RequestHandler):
+class rootRequestHandler(tornado.web.RequestHandler):
     def get(self):
         # return and a html from a file
         self.render("index.html")
@@ -33,8 +34,12 @@ class resourceParamRequestHandler(tornado.web.RequestHandler):
 class listRequestHandler(tornado.web.RequestHandler):
     def get(self):
         with open("data.txt", "r") as f:
+            # read file
+            content = f.read().splitlines()
+            # to json
+            jsonContent = json.dumps(content)
             # return a json read from server
-            self.write(json.dumps(f.read().splitlines()))
+            self.write(jsonContent)
     def post(self):
         with open("data.txt", "a") as f:
             # just get the argument, body first then url
@@ -73,11 +78,15 @@ class uploadPageRequestHandler(tornado.web.RequestHandler):
 
 if __name__ == "__main__":
     app = tornado.web.Application([
-        (r"/", basicRequestHandler),
+        # create the root request, return a html
+        (r"/", rootRequestHandler),
+        # the basic get, no parameter
         (r"/quoting", quotingRequestHandler),
+        # get with query params
         (r"/isEven", queryParamRequestHandler),
         # [A-z] A to z, "+" infinity
         (r"/students/([A-z]+)/([0-9]+)", resourceParamRequestHandler),
+        # load and show server file
         (r"/list", listRequestHandler),
         
         # images 
@@ -88,7 +97,7 @@ if __name__ == "__main__":
         (r"/img/(.*)", tornado.web.StaticFileHandler, {"path": "img"})
     ])
 
-    port = 9000
+    port = 8801
     app.listen(port)
 
     print(f"Application is ready and listening to port {port}")

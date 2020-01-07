@@ -20,7 +20,7 @@
         const addBtn = document.getElementById("addBtn")
 
         // get the animal list from request
-       fetch("http://localhost:8882/list")
+       fetch("./list")
        .then(response => response.json())
        .then(res => res.forEach(animal => {
            console.log(animal);
@@ -32,7 +32,7 @@
        addBtn.addEventListener("click", e => {
            console.log("click events -> ",e)
            let animal = inputText.value 
-           fetch(`http://localhost:8882/list?animal=${animal}`, {"method": "post"})
+           fetch(`./list?animal=${animal}`, {"method": "post"})
            .then(response => response.json())
            .then(res => alert(res.msg))
        })
