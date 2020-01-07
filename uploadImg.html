@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload images</title>
+</head>
+<body>
+    <h1>You can upload your image and preview them</h1>
+
+    <!-- action: the url the do request -->
+    <!-- enctype: encode type, way to send data -->
+    <form action="/uploadImg" method="POST" enctype="multipart/form-data" accept-charset="">
+    
+    <!-- choose files 
+        name="imageFile", the key of the file (self.request.files["imageFile"]) -->
+    <input type="file" name="imageFile" accept=".jpg, .png, .gif, .jpeg">
+    <!-- submit the form, trigger action -->
+    <input type="submit" value="upload">
+    
+    </form>
+
+</body>
+</html>

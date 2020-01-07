@@ -4,15 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lit of Animals</title>
+    <title>List of Animals</title>
 </head>
 <body>
    <h1>This is a list of Animals</h1> 
-   <select name="" id="">
-       <option value="">Snake</option>
-       <option value="">tiger</option>
-       <option value="">pig</option>
-   </select>
-    <h2>Hello April</h2>
+   <select name="" id="sltList">animals</select>
+   <input id="addInput" placeholder="just input an animal name"></input>
+   <button id="addBtn">Add animal</button>
+   <br>
+    <a href="uploadImg">go upload images</a>
+
+   <script>
+        const inputText = document.getElementById("addInput")
+        const animalSel = document.getElementById("sltList")
+        const addBtn = document.getElementById("addBtn")
+
+        // get the animal list from request
+       fetch("http://localhost:8882/list")
+       .then(response => response.json())
+       .then(res => res.forEach(animal => {
+           console.log(animal);
+            let o = document.createElement("option")
+            o.textContent = animal
+            animalSel.appendChild(o)
+       }))
+
+       addBtn.addEventListener("click", e => {
+           console.log("click events -> ",e)
+           let animal = inputText.value 
+           fetch(`http://localhost:8882/list?animal=${animal}`, {"method": "post"})
+           .then(response => response.json())
+           .then(res => alert(res.msg))
+       })
+   </script>
 </body>
 </html>
