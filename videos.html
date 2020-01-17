@@ -5,21 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Video list</title>
+    <style>
+        #videoPreview{
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h2>list of videos</h2>
     <ul id="list">
         <!-- video list -->
-
     </ul>
 </body>
 </html>
 
 <script>
-
     const listElement = document.getElementById("list")
-    
-
     fetch("./videosList")
     .then(res => res.json())
     .then(res => {
@@ -28,10 +29,16 @@
         const list = res["list"]
         list.forEach(element => {
             const o = document.createElement("li")
+            const headLine = document.createElement("h3")
             const a = document.createElement("a")
-            a.textContent = element
+            const videoTag = document.createElement("video")
+            headLine.textContent = element
+            videoTag.id = "videoPreview"
             a.href = `./video/${element}`
+            videoTag.src = `./video/${element}`
+            o.appendChild(headLine)
             o.appendChild(a)
+            a.appendChild(videoTag)
             listElement.appendChild(o)
         });
 
