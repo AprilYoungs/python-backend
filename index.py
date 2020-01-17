@@ -3,6 +3,7 @@ import tornado.web
 # input and output loop module
 import tornado.ioloop
 import json
+import os
 
 class rootRequestHandler(tornado.web.RequestHandler):
     def get(self):
@@ -76,6 +77,17 @@ class uploadPageRequestHandler(tornado.web.RequestHandler):
                 fileUrls += f"<a href='./img/{f.filename}'>{f.filename}</a>\n"
         self.write(fileUrls)
 
+
+class videosRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("videos.html")
+
+class listVideosRequestHandler(tornado.web.RequestHandler):
+    def get(self):
+        list = os.listdir("./video")
+        result = {'msg': 'success', 'list': list}
+        self.write(json.dumps(result))
+
 if __name__ == "__main__":
     app = tornado.web.Application([
         # create the root request, return a html
@@ -94,7 +106,12 @@ if __name__ == "__main__":
         #  read server's files
         #  The handler constructor requires a ``path`` argument, which specifies the
         #  local root directory of the content to be served.
-        (r"/img/(.*)", tornado.web.StaticFileHandler, {"path": "img"})
+        (r"/img/(.*)", tornado.web.StaticFileHandler, {"path": "img"}),
+
+        # videos
+        (r"/videos", videosRequestHandler),
+        (r"/videosList", listVideosRequestHandler),
+        (r"/video/(.*)", tornado.web.StaticFileHandler, {"path": "video"})
     ])
 
     port = 8801

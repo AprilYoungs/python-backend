@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Video list</title>
+</head>
+<body>
+    <h2>list of videos</h2>
+    <ul id="list">
+        <!-- video list -->
+
+    </ul>
+</body>
+</html>
+
+<script>
+
+    const listElement = document.getElementById("list")
+    
+
+    fetch("./videosList")
+    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+
+        const list = res["list"]
+        list.forEach(element => {
+            const o = document.createElement("li")
+            const a = document.createElement("a")
+            a.textContent = element
+            a.href = `./video/${element}`
+            o.appendChild(a)
+            listElement.appendChild(o)
+        });
+
+    })
+</script>
